@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lab01</string>
+    <string name="input_name_hint" translatable="false">Введите имя</string>
+    <string name="default_name" translatable="false">Незнакомец</string>
+    <string name="greetings_template" translatable="false">Привет, %s!</string>
+    <string name="submit_button_text" translatable="false">Поздороваться</string>
+</resources>
