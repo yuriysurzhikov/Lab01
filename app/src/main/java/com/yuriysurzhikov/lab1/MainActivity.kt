@@ -16,27 +16,27 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var button: Button
     private lateinit var greetingsOutput: TextView
-    private var editText: EditText? = null
+    private var editText: TextInputLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         button = findViewById(R.id.submit_button)
-        editText = findViewById<TextInputLayout>(R.id.input_name_layout).editText
+        editText = findViewById(R.id.input_name_layout)
         greetingsOutput = findViewById(R.id.greetings_text)
         button.setOnClickListener(readClickListener)
-        editText?.setOnEditorActionListener(onDoneOptionClick)
+        editText?.editText?.setOnEditorActionListener(onDoneOptionClick)
         showGreetings(getString(R.string.default_name))
     }
 
     private val readClickListener = View.OnClickListener {
-        showGreetings(editText?.text?.toString())
+        showGreetings(editText?.editText?.text?.toString())
     }
 
     private val onDoneOptionClick = TextView.OnEditorActionListener { _, actionId, _ ->
         when (actionId) {
             EditorInfo.IME_ACTION_DONE -> {
-                showGreetings(editText?.text?.toString())
+                showGreetings(editText?.editText?.text?.toString())
                 KeyboardUtils.closeSoftKeyboard(editText!!)
                 return@OnEditorActionListener true
             }
@@ -45,8 +45,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showGreetings(name: String?) {
-        val template = getString(R.string.greetings_template)
-        val formattedText = String.format(template, name)
-        greetingsOutput.text = formattedText
+        if (name.isNullOrBlank()) {
+            editText?.error = getString(R.string.name_input_length_error)
+        } else {
+            editText?.error = null
+            val template = getString(R.string.greetings_template)
+            val formattedText = String.format(template, name)
+            greetingsOutput.text = formattedText
+        }
     }
 }
